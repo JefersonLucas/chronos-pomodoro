@@ -5,7 +5,6 @@
   padding: 0.8rem;
   color: var(--text-default);
   outline: none;
-
   border: 0.2rem solid transparent;
   border-bottom: 0.2rem solid var(--primary);
   transition: all 0.2s ease-in-out;
