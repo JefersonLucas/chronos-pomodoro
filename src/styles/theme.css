@@ -1,4 +1,3 @@
-
 :root {
   --gray-100: #e6e9f0;
   --gray-200: #cdd3e1;
@@ -13,6 +12,7 @@
   --primary-light: #4de7b7;
   --primary: #0da170;
   --primary-dark: #065f46;
+  --primary-shadow: #2d5448;
 
   --link-color: #10b981;
   --link-hover: #0b8a60;
