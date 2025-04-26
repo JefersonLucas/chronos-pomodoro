@@ -16,7 +16,7 @@ export function Menu() {
 				<SettingsIcon />
 			</a>
 
-			<a className={styles.menuLink} title="tema" href="#">
+			<a className={styles.menuLink} title="Tema" href="#">
 				<SunIcon />
 			</a>
 		</nav>
