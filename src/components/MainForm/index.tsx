@@ -34,7 +34,7 @@ export function MainForm() {
 			startDate: Date.now(),
 			completeDate: null,
 			interruptDate: null,
-			duration: 1,
+			duration: state.cycle[nextCycleType],
 			type: nextCycleType,
 		}
 
@@ -45,7 +45,7 @@ export function MainForm() {
 				...prevState,
 				cycle: { ...prevState.cycle },
 				activeTask: newTask,
-				currentCycle: nextCycle, // Conferir
+				currentCycle: nextCycle,
 				secondsRemaining, // Conferir
 				formattedSecondsRemaining: "00:00", // Conferir
 				tasks: [...prevState.tasks, newTask],
