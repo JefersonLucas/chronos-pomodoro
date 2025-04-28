@@ -7,6 +7,7 @@ import { TaskModel } from "../../models/TaskModel"
 import { useTaskContext } from "../../hooks/useTaskContext"
 import { getNextCycle } from "../../utils/getNextCycle"
 import { getNextCycleType } from "../../utils/getNextCycleType"
+import { secondsToMinutes } from "../../utils/secondsToMinutes"
 
 export function MainForm() {
 	const { state, setState } = useTaskContext()
@@ -38,7 +39,9 @@ export function MainForm() {
 			type: nextCycleType,
 		}
 
-		const secondsRemaining = newTask.duration * 60
+		const minute = 60 // valor em segundos que representa 1 minuto
+		const secondsRemaining = newTask.duration * minute // ex.: 5 * 60 = 300 (segundos)
+		const formattedSecondsRemaining = secondsToMinutes(secondsRemaining)
 
 		setState((prevState) => {
 			return {
@@ -46,8 +49,8 @@ export function MainForm() {
 				cycle: { ...prevState.cycle },
 				activeTask: newTask,
 				currentCycle: nextCycle,
-				secondsRemaining, // Conferir
-				formattedSecondsRemaining: "00:00", // Conferir
+				secondsRemaining,
+				formattedSecondsRemaining,
 				tasks: [...prevState.tasks, newTask],
 			}
 		})
