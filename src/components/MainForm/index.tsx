@@ -56,6 +56,54 @@ export function MainForm() {
 		})
 	}
 
+	/**
+	 * Interrompe o ciclo de uma uma tarefa atualizando o estado da aplicação.
+	 *
+	 * Essa função modifica as seguintes propriedades:
+	 * - `activeTask`: recebe `null` informando que a tarefa não está mais ativa;
+	 * - `secondsRemaining`: recebe `0` informando que não existe mais segundos restantes;
+	 * - `formattedSecondsRemaining`: recebe `"00:00"` zerando o contador;
+	 * - `tasks`: recebe todas as tarefas do estado modificando a propriedade `interruptDate`.
+	 *
+	 * @param event esse evento somente é utilizar o método `preventDefault()` para prevenir o recarregamento da página.
+	 */
+	function handleInterruptTask(
+		event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+	) {
+		event.preventDefault()
+
+		setState((prevState) => {
+			/**
+			 * Para atualizar a propriedade interruptDate é necessário:
+			 *
+			 * - recuperar todas as tarefas do estado utilizando o método `map()` nas `tasks`;
+			 * - verificar se existe `activeTask` e se o `id` é igual ao `id` da `task` que queremos modificar;
+			 * - caso encontrarmos, iremos recuperar todas as informações de `task` e modificar a propriedade `interruptDate` com `Date.now()`;
+			 * - retornar `task`.
+			 */
+			const tasks = prevState.tasks.map((task) => {
+				if (
+					prevState.activeTask &&
+					prevState.activeTask.id === task.id
+				) {
+					return {
+						...task,
+						interruptDate: Date.now(),
+					}
+				}
+				return task
+			})
+
+			return {
+				...prevState,
+				activeTask: null,
+				secondsRemaining: 0,
+				formattedSecondsRemaining: "00:00",
+				tasks,
+			}
+		})
+	}
+
 	return (
 		<form onSubmit={handleNewTask} className="form" action="">
 			<div className="formRow">
@@ -81,21 +129,26 @@ export function MainForm() {
 			)}
 
 			<div className="formRow">
-				{!state.activeTask ? (
+				{!state.activeTask && (
 					<DefaultButton
 						icon={<PlayCircleIcon />}
 						color="green"
 						aria-label="Iniciar nova tarefa"
 						title="Iniciar nova tarefa"
 						type="submit"
+						key="btn_submit"
 					/>
-				) : (
+				)}
+
+				{!!state.activeTask && (
 					<DefaultButton
 						icon={<StopCircleIcon />}
 						color="red"
 						aria-label="Interromper tarefa atual"
 						title="Interromper tarefa atual"
 						type="button"
+						key="btn_button"
+						onClick={handleInterruptTask}
 					/>
 				)}
 			</div>
