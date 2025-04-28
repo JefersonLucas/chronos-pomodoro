@@ -8,7 +8,7 @@ import { TaskModel } from "./TaskModel"
  * @property {number} formattedSecondsRemaining Os segundos restantes formatado no padrão `"mm:ss"`.
  * @property {TaskModel | null} activeTask Tarefa ativa no ciclo, podendo possuir uma tarefa ou não.
  * @property {number} currentCycle O ciclo atual de uma tarefa. Esse propriedade tem o valor que vai de 0 até 8.
- * @property {CycleModel} config Os ciclos e o valor em minutos de cada um.
+ * @property {CycleModel} cycle Os ciclos e o valor em minutos de cada um.
  */
 export type TaskStateModel = {
 	tasks: TaskModel[]
@@ -16,7 +16,7 @@ export type TaskStateModel = {
 	formattedSecondsRemaining: string
 	activeTask: TaskModel | null
 	currentCycle: number
-	config: CycleModel
+	cycle: CycleModel
 }
 
 /**
