@@ -17,6 +17,31 @@ export function MainForm() {
 	const nextCycle = getNextCycle(state.currentCycle)
 	const nextCycleType = getNextCycleType(nextCycle)
 
+	/**
+	 * Cria uma nova `task`.
+	 *
+	 * Para isso, é necessário:
+	 *
+	 * - recuperar o valor digitado no input;
+	 * - verificar valor digitado é válido;
+	 * - criar uma nova tarefa baseando no modelo `TaskModel` informando as propriedades:
+	 * 	- `id`: identificador da tarefa.
+	 * 	- `name`: nome da tarefa.
+	 * 	- `duration`: duração da tarefa.
+	 * 	- `startDate`: momento que iniciou a tarefa.
+	 * 	- `completeDate`: momento que a tarefa finalizou.
+	 * 	- `interruptDate`: momento que a tarefa foi interrompida.
+	 * 	- `type`: O tipo de ciclo da tarefa.
+	 *
+	 * Na função `setState`, além de, recuperar as informações do estado iremos atualizar as propriedades:
+	 * - `cycle`: os ciclos e o valor em minutos de cada um;
+	 * - `activeTask`: tarefa ativa no ciclo;
+	 * - `currentCycle`: ciclo atual da tarefa;
+	 * - `secondsRemaining`: segundos restantes para a tarefa ser concluída.;
+	 * - `tasks`: recuperar todas as tarefas e salvar a tarefa atual;
+	 *
+	 * @param event esse evento somente é utilizar o método `preventDefault()` para prevenir o recarregamento da página.
+	 */
 	function handleNewTask(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 
@@ -39,6 +64,7 @@ export function MainForm() {
 			type: nextCycleType,
 		}
 
+		// Segundos e Minutos
 		const minute = 60 // valor em segundos que representa 1 minuto
 		const secondsRemaining = newTask.duration * minute // ex.: 5 * 60 = 300 (segundos)
 		const formattedSecondsRemaining = secondsToMinutes(secondsRemaining)
