@@ -35,6 +35,8 @@
   --text-default: #e6e9f0;
   --text-muted: #aab3cc;
 
+  --text-hover: #e6e9f0;
+
   --disabled: #555f7d;
   --text-disabled: #aab3cc;
 }
