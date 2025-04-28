@@ -20,8 +20,8 @@
 .menuLink:hover {
   filter: brightness(90%);
   outline: none;
-  color: var(--gray-100);
-  box-shadow: 0 0 0 3px var(--primary-shadow);
+  color: var(--text-hover);
+  box-shadow: 0 0 3px 3px var(--primary-shadow);
 }
 
 .menuLink svg {
