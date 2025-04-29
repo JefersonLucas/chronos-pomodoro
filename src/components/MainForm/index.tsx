@@ -7,24 +7,24 @@ import { TaskModel } from "../../models/TaskModel"
 import { useTaskContext } from "../../hooks/useTaskContext"
 import { getNextCycle } from "../../utils/getNextCycle"
 import { getNextCycleType } from "../../utils/getNextCycleType"
-import { secondsToMinutes } from "../../utils/secondsToMinutes"
+import { TaskActionTypes } from "../../models/TaskActionModel"
 
 export function MainForm() {
-	const { state, setState } = useTaskContext()
+	const { state, dispatch } = useTaskContext()
 	const taskNameInput = useRef<HTMLInputElement>(null)
 
-	// Ciclos
+	// // Ciclos
 	const nextCycle = getNextCycle(state.currentCycle)
 	const nextCycleType = getNextCycleType(nextCycle)
 
 	/**
-	 * Cria uma nova `task`.
+	 * Cria uma nova tarefa.
 	 *
 	 * Para isso, é necessário:
 	 *
-	 * - recuperar o valor digitado no input;
-	 * - verificar valor digitado é válido;
-	 * - criar uma nova tarefa baseando no modelo `TaskModel` informando as propriedades:
+	 * - recuperar o valor digitado do nome da nova tarefa no input;
+	 * - verificar se valor digitado é válido;
+	 * - criar uma nova tarefa `newTask` baseando no modelo `TaskModel` informando as propriedades:
 	 * 	- `id`: identificador da tarefa.
 	 * 	- `name`: nome da tarefa.
 	 * 	- `duration`: duração da tarefa.
@@ -33,12 +33,7 @@ export function MainForm() {
 	 * 	- `interruptDate`: momento que a tarefa foi interrompida.
 	 * 	- `type`: O tipo de ciclo da tarefa.
 	 *
-	 * Na função `setState`, além de, recuperar as informações do estado iremos atualizar as propriedades:
-	 * - `cycle`: os ciclos e o valor em minutos de cada um;
-	 * - `activeTask`: tarefa ativa no ciclo;
-	 * - `currentCycle`: ciclo atual da tarefa;
-	 * - `secondsRemaining`: segundos restantes para a tarefa ser concluída.;
-	 * - `tasks`: recuperar todas as tarefas e salvar a tarefa atual;
+	 * Na função `dispatch()` iremos utilizar no `type` o enum `TaskActionTypes.START_TASK` e enviar a `newTask` no `payload`.
 	 *
 	 * @param event esse evento somente é utilizar o método `preventDefault()` para prevenir o recarregamento da página.
 	 */
@@ -64,28 +59,13 @@ export function MainForm() {
 			type: nextCycleType,
 		}
 
-		// Segundos e Minutos
-		const minute = 60 // valor em segundos que representa 1 minuto
-		const secondsRemaining = newTask.duration * minute // ex.: 5 * 60 = 300 (segundos)
-		const formattedSecondsRemaining = secondsToMinutes(secondsRemaining)
-
-		setState((prevState) => {
-			return {
-				...prevState,
-				cycle: { ...prevState.cycle },
-				activeTask: newTask,
-				currentCycle: nextCycle,
-				secondsRemaining,
-				formattedSecondsRemaining,
-				tasks: [...prevState.tasks, newTask],
-			}
-		})
+		dispatch({ type: TaskActionTypes.START_TASK, payload: newTask })
 	}
 
 	/**
-	 * Interrompe o ciclo de uma uma tarefa atualizando o estado da aplicação.
+	 * Interrompe o ciclo de uma tarefa.
 	 *
-	 * Essa função modifica as seguintes propriedades:
+	 * A função `dispath()` modifica as seguintes propriedades:
 	 * - `activeTask`: recebe `null` informando que a tarefa não está mais ativa;
 	 * - `secondsRemaining`: recebe `0` informando que não existe mais segundos restantes;
 	 * - `formattedSecondsRemaining`: recebe `"00:00"` zerando o contador;
@@ -98,36 +78,7 @@ export function MainForm() {
 	) {
 		event.preventDefault()
 
-		setState((prevState) => {
-			/**
-			 * Para atualizar a propriedade interruptDate é necessário:
-			 *
-			 * - recuperar todas as tarefas do estado utilizando o método `map()` nas `tasks`;
-			 * - verificar se existe `activeTask` e se o `id` é igual ao `id` da `task` que queremos modificar;
-			 * - caso encontrarmos, iremos recuperar todas as informações de `task` e modificar a propriedade `interruptDate` com `Date.now()`;
-			 * - retornar `task`.
-			 */
-			const tasks = prevState.tasks.map((task) => {
-				if (
-					prevState.activeTask &&
-					prevState.activeTask.id === task.id
-				) {
-					return {
-						...task,
-						interruptDate: Date.now(),
-					}
-				}
-				return task
-			})
-
-			return {
-				...prevState,
-				activeTask: null,
-				secondsRemaining: 0,
-				formattedSecondsRemaining: "00:00",
-				tasks,
-			}
-		})
+		dispatch({ type: TaskActionTypes.INTERRUPT_TASK })
 	}
 
 	return (
