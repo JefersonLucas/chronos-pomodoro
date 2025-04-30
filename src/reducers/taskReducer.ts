@@ -60,10 +60,48 @@ export function taskReducer(state: TaskStateModel, action: TaskActionModel) {
 				tasks,
 			}
 		}
+
+		case TaskActionTypes.COMPLETE_TASK: {
+			/**
+			 * Para atualizar a propriedade `completeDate` é necessário:
+			 *
+			 * - recuperar todas as tarefas do estado utilizando o método `map()` nas `tasks`;
+			 * - verificar se existe `activeTask` e se o `id` é igual ao `id` da `task` que queremos modificar;
+			 * - caso encontrarmos, iremos recuperar todas as informações de `task` e modificar a propriedade `completeDate` com `Date.now()`;
+			 * - retornar `task`.
+			 */
+			const tasks = state.tasks.map((task) => {
+				if (state.activeTask && state.activeTask.id === task.id) {
+					return {
+						...task,
+						completeDate: Date.now(),
+					}
+				}
+				return task
+			})
+
+			return {
+				...state,
+				activeTask: null,
+				secondsRemaining: 0,
+				formattedSecondsRemaining: "00:00",
+				tasks,
+			}
+		}
+
 		case TaskActionTypes.RESET_STATE: {
 			return state
 		}
+
+		case TaskActionTypes.COUNT_DOWN: {
+			const secondsRemaining = action.payload.secondsRemaining
+			const formattedSecondsRemaining = secondsToMinutes(secondsRemaining)
+
+			return {
+				...state,
+				secondsRemaining,
+				formattedSecondsRemaining,
+			}
+		}
 	}
-	// Sempre deve retornar o estado
-	// return state
 }
