@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { BrowserRouter, Route, Routes, useLocation } from "react-router"
 import { AboutPage } from "../../pages/About"
+import { HistoryPage } from "../../pages/History"
 import { HomePage } from "../../pages/Home"
 import { NotFoundPage } from "../../pages/NotFound"
 
@@ -24,6 +25,7 @@ export function MainRouter() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/about/" element={<AboutPage />} />
+				<Route path="/history/" element={<HistoryPage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 			<ScrollToTop />
