@@ -95,7 +95,7 @@ export function MainForm() {
 		<form onSubmit={handleNewTask} className="form" action="">
 			<div className="formRow">
 				<DefaultInput
-					labelText="Task"
+					labelText="Tarefa"
 					id="meuInput"
 					type="text"
 					title="Descrição"
