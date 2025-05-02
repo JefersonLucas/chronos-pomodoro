@@ -1,17 +1,42 @@
 import { TrashIcon } from "lucide-react"
+import { useState } from "react"
 import { Container } from "../../components/Container"
 import { DefaultButton } from "../../components/DefaultButton"
 import { Heading } from "../../components/Heading"
 import { MainTemplate } from "../../templates/Main"
 
+import { taskTypeDictionary } from "../../dictionaries/taskType"
 import { useTaskContext } from "../../hooks/useTaskContext"
 import { formatDate } from "../../utils/formatDate"
 import { getTaskStatus } from "../../utils/getTaskStatus"
+import { SortTasksOptions, sortTasks } from "../../utils/sortTasks"
 import styles from "./styles.module.css"
-import { taskTypeDictionary } from "../../dictionaries/taskType"
 
 export function HistoryPage() {
 	const { state } = useTaskContext()
+	const [sortTasksOptions, setSortTasksOptions] = useState<SortTasksOptions>(
+		() => {
+			return {
+				tasks: sortTasks({ tasks: state.tasks }),
+				field: "startDate",
+				direction: "desc",
+			}
+		},
+	)
+
+	function handleSortTasks({ field }: Pick<SortTasksOptions, "field">) {
+		const newDirection =
+			sortTasksOptions.direction === "asc" ? "desc" : "asc"
+
+		setSortTasksOptions({
+			tasks: sortTasks({
+				direction: newDirection,
+				tasks: sortTasksOptions.tasks,
+			}),
+			direction: newDirection,
+			field,
+		})
+	}
 
 	return (
 		<MainTemplate>
@@ -34,16 +59,37 @@ export function HistoryPage() {
 					<table>
 						<thead>
 							<tr>
-								<th>Tarefa</th>
-								<th>Duração</th>
-								<th>Data</th>
+								<th
+									onClick={() =>
+										handleSortTasks({ field: "name" })
+									}
+									className={styles.thSort}
+								>
+									Tarefa ↕
+								</th>
+								<th
+									onClick={() =>
+										handleSortTasks({ field: "duration" })
+									}
+									className={styles.thSort}
+								>
+									Duração ↕
+								</th>
+								<th
+									onClick={() =>
+										handleSortTasks({ field: "startDate" })
+									}
+									className={styles.thSort}
+								>
+									Data ↕
+								</th>
 								<th>Status</th>
 								<th>Tipo</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							{state.tasks.map((task) => {
+							{sortTasksOptions.tasks.map((task) => {
 								return (
 									<tr key={task.id}>
 										<td>{task.name}</td>

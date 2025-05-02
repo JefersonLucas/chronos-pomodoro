@@ -34,6 +34,7 @@
 
 .responsiveTable tr:hover {
   color: var(--text-hover);
+  filter: brightness(95%);
 }
 
 .responsiveTable th {
@@ -49,4 +50,14 @@
   border-bottom: 0.2rem solid var(--gray-700);
   text-align: left;
   padding: 1.6rem;
+}
+
+.thSort {
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.thSort:hover {
+  filter: brightness(80%);
 }
