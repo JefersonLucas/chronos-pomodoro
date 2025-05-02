@@ -3,8 +3,8 @@ import { TaskContext } from "../../contexts/Task"
 import { initialTaskState } from "../../contexts/Task/initialTaskState"
 import { TaskActionTypes } from "../../models/TaskActionModel"
 import { taskReducer } from "../../reducers/taskReducer"
-import { TimerWorkerManager } from "../../workers/TimerWorkerManager"
 import { loadBeep } from "../../utils/loadBeep"
+import { TimerWorkerManager } from "../../workers/TimerWorkerManager"
 
 type TaskContextProviderProps = {
 	children: React.ReactNode
@@ -49,6 +49,9 @@ export function TaskContextProvider({ children }: TaskContextProviderProps) {
 			console.log("Worker terminado por falta de activeTask")
 			worker.terminate()
 		}
+
+		// Atualiza o título da página
+		document.title = `${state.formattedSecondsRemaining} - Chronos Pomodoro`
 
 		worker.postMessage(state)
 	}, [worker, state])
