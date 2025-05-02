@@ -1,5 +1,6 @@
 import { PlayCircleIcon, StopCircleIcon } from "lucide-react"
 import { useRef } from "react"
+import { showMessage } from "../../adapters/showMessage"
 import { useTaskContext } from "../../hooks/useTaskContext"
 import { TaskActionTypes } from "../../models/TaskActionModel"
 import { TaskModel } from "../../models/TaskModel"
@@ -9,13 +10,13 @@ import { Cycles } from "../Cycles"
 import { DefaultButton } from "../DefaultButton"
 import { DefaultInput } from "../DefaultInput"
 import { Tips } from "../Tips"
-import { showMessage } from "../../adapters/showMessage"
 
 export function MainForm() {
 	const { state, dispatch } = useTaskContext()
 	const taskNameInput = useRef<HTMLInputElement>(null)
+	const lastTaskName = state.tasks.slice(-1)[0]?.name
 
-	// // Ciclos
+	// Ciclos
 	const nextCycle = getNextCycle(state.currentCycle)
 	const nextCycleType = getNextCycleType(nextCycle)
 
@@ -101,6 +102,7 @@ export function MainForm() {
 					placeholder="Digite algo"
 					ref={taskNameInput}
 					disabled={!!state.activeTask}
+					defaultValue={lastTaskName}
 				/>
 			</div>
 
