@@ -1,3 +1,4 @@
+import { taskTypeDictionary } from "../../dictionaries/taskType"
 import { useTaskContext } from "../../hooks/useTaskContext"
 import { getNextCycle } from "../../utils/getNextCycle"
 import { getNextCycleType } from "../../utils/getNextCycleType"
@@ -7,12 +8,6 @@ export function Cycles() {
 	const { state } = useTaskContext()
 
 	const cycleStep = Array.from({ length: state.currentCycle })
-
-	const cycleDescription = {
-		workTime: "foco",
-		shortBreakTime: "decanso curto",
-		longBreakTime: "descanso longo",
-	}
 
 	return (
 		<div className={styles.cycles}>
@@ -27,8 +22,12 @@ export function Cycles() {
 						<span
 							key={`${nextCycle}_${index}`}
 							className={`${styles.cycleDot} ${styles[nextCycleType]}`}
-							aria-label={`Indicador de ciclo de ${cycleDescription[nextCycleType]}`}
-							title={`Indicador de ciclo de ${cycleDescription[nextCycleType]}`}
+							aria-label={`Indicador de ciclo de ${taskTypeDictionary[
+								nextCycleType
+							].toLowerCase()}`}
+							title={`Indicador de ciclo de ${taskTypeDictionary[
+								nextCycleType
+							].toLocaleLowerCase()}`}
 						></span>
 					)
 				})}

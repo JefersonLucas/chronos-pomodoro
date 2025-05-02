@@ -8,9 +8,11 @@ import { useTaskContext } from "../../hooks/useTaskContext"
 import { formatDate } from "../../utils/formatDate"
 import { getTaskStatus } from "../../utils/getTaskStatus"
 import styles from "./styles.module.css"
+import { taskTypeDictionary } from "../../dictionaries/taskType"
 
 export function HistoryPage() {
 	const { state } = useTaskContext()
+
 	return (
 		<MainTemplate>
 			<Container>
@@ -53,7 +55,7 @@ export function HistoryPage() {
 												state.activeTask,
 											)}
 										</td>
-										<td>{task.type}</td>
+										<td>{taskTypeDictionary[task.type]}</td>
 									</tr>
 								)
 							})}
