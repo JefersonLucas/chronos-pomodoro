@@ -26,7 +26,7 @@ export type TaskStateModel = {
  * @property {number} shortBreakTime Valor em minutos em um momento descanso curto.
  * @property {number} longBreakTime Valor em minutos em um momento de descanso longo.
  */
-type CycleModel = {
+export type CycleModel = {
 	workTime: number
 	shortBreakTime: number
 	longBreakTime: number
