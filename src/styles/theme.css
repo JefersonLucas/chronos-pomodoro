@@ -131,6 +131,8 @@
    --text-default: #0a0f1a;
    /* Texto menos importante */
    --text-muted: #272f43;
+   /* Texto usado em hover */
+   --text-hover: #fff;
 
    /* 🔗 Links no modo claro */
 

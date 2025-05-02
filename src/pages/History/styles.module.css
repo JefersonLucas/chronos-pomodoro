@@ -19,6 +19,21 @@
   min-width: 64rem;
   font-size: 1.6rem;
   border-collapse: collapse;
+  color: var(--text-muted);
+}
+
+.responsiveTable thead {
+  color: var(--text-muted);
+  transition: all 0.2s ease-in-out;
+}
+
+.responsiveTable thead:hover {
+  color: var(--text-hover);
+  cursor: pointer;
+}
+
+.responsiveTable tr:hover {
+  color: var(--text-hover);
 }
 
 .responsiveTable th {
