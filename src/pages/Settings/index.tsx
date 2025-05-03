@@ -6,10 +6,11 @@ import { DefaultButton } from "../../components/DefaultButton"
 import { DefaultInput } from "../../components/DefaultInput"
 import { Heading } from "../../components/Heading"
 import { useTaskContext } from "../../hooks/useTaskContext"
+import { TaskActionTypes } from "../../models/TaskActionModel"
 import { MainTemplate } from "../../templates/Main"
 
 export function SettingsPage() {
-	const { state } = useTaskContext()
+	const { state, dispatch } = useTaskContext()
 	const workTimeInput = useRef<HTMLInputElement>(null)
 	const shortBreakTimeInput = useRef<HTMLInputElement>(null)
 	const longBreakTimeInput = useRef<HTMLInputElement>(null)
@@ -47,7 +48,12 @@ export function SettingsPage() {
 			return
 		}
 
-		console.log("SALVAR")
+		dispatch({
+			type: TaskActionTypes.CHANGE_SETTINGS,
+			payload: { workTime, shortBreakTime, longBreakTime },
+		})
+
+		showMessage.success("Configurações salvas")
 	}
 	return (
 		<MainTemplate>
