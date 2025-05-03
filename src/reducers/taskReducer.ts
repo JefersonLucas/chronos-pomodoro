@@ -1,3 +1,4 @@
+import { initialTaskState } from "../contexts/Task/initialTaskState"
 import { TaskActionModel, TaskActionTypes } from "../models/TaskActionModel"
 import { TaskStateModel } from "../models/TaskStateModel"
 import { getNextCycle } from "../utils/getNextCycle"
@@ -90,7 +91,7 @@ export function taskReducer(state: TaskStateModel, action: TaskActionModel) {
 		}
 
 		case TaskActionTypes.RESET_STATE: {
-			return state
+			return { ...initialTaskState }
 		}
 
 		case TaskActionTypes.COUNT_DOWN: {
