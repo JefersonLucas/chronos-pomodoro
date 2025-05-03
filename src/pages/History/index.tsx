@@ -74,6 +74,10 @@ export function HistoryPage() {
 		return () => showMessage.dismiss()
 	}, [])
 
+	useEffect(() => {
+		document.title = "Histórico - Chronos Pomodoro"
+	}, [])
+
 	return (
 		<MainTemplate>
 			<Container>
