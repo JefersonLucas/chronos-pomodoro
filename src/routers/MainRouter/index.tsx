@@ -4,6 +4,7 @@ import { AboutPage } from "../../pages/About"
 import { HistoryPage } from "../../pages/History"
 import { HomePage } from "../../pages/Home"
 import { NotFoundPage } from "../../pages/NotFound"
+import { SettingsPage } from "../../pages/Settings"
 
 /**
  * Faz o scroll para o topo de modo suave.
@@ -26,6 +27,7 @@ export function MainRouter() {
 				<Route path="/" element={<HomePage />} />
 				<Route path="/about/" element={<AboutPage />} />
 				<Route path="/history/" element={<HistoryPage />} />
+				<Route path="/settings/" element={<SettingsPage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 			<ScrollToTop />
