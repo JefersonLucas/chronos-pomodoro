@@ -5,16 +5,18 @@ import { DefaultButton } from "../../components/DefaultButton"
 import { Heading } from "../../components/Heading"
 import { taskTypeDictionary } from "../../dictionaries/taskType"
 import { useTaskContext } from "../../hooks/useTaskContext"
-import { TaskActionTypes } from "../../models/TaskActionModel"
 import { MainTemplate } from "../../templates/Main"
 import { formatDate } from "../../utils/formatDate"
 import { getTaskStatus } from "../../utils/getTaskStatus"
 import { SortTasksOptions, sortTasks } from "../../utils/sortTasks"
 
+import { showMessage } from "../../adapters/showMessage"
+import { TaskActionTypes } from "../../models/TaskActionModel"
 import styles from "./styles.module.css"
 
 export function HistoryPage() {
 	const { state, dispatch } = useTaskContext()
+	const [confirmClearHistory, setConfirmClearHistory] = useState(false)
 	const hasTasks = state.tasks.length > 0
 	const [sortTasksOptions, setSortTasksOptions] = useState<SortTasksOptions>(
 		() => {
@@ -41,9 +43,10 @@ export function HistoryPage() {
 	}
 
 	function handleResetHistory() {
-		if (!confirm("Tem certeza")) return
-
-		dispatch({ type: TaskActionTypes.RESET_STATE })
+		showMessage.dismiss()
+		showMessage.confirm("Tem certeza?", (confirmation) => {
+			setConfirmClearHistory(confirmation)
+		})
 	}
 
 	useEffect(() => {
@@ -57,6 +60,19 @@ export function HistoryPage() {
 			}),
 		}))
 	}, [state.tasks])
+
+	useEffect(() => {
+		if (!confirmClearHistory) return
+		// Resetando o estado
+		dispatch({ type: TaskActionTypes.RESET_STATE })
+
+		return () => {}
+	}, [confirmClearHistory, dispatch])
+
+	useEffect(() => {
+		// Fechando as mensagens quando a página é desmontada
+		return () => showMessage.dismiss()
+	}, [])
 
 	return (
 		<MainTemplate>
