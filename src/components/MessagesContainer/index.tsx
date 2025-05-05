@@ -1,10 +1,18 @@
 import { Bounce, ToastContainer } from "react-toastify"
+import { useThemeContext } from "../../hooks/useThemeContext"
 
 type MessagesContainerProps = {
 	children: React.ReactNode
 }
 
 export function MessagesContainer({ children }: MessagesContainerProps) {
+	const { state } = useThemeContext()
+
+	const themeStyle = {
+		dark: "var(--gray-800)",
+		light: "var(--gray-800)",
+	}
+
 	return (
 		<>
 			{children}
@@ -19,11 +27,11 @@ export function MessagesContainer({ children }: MessagesContainerProps) {
 				pauseOnFocusLoss
 				draggable
 				pauseOnHover
-				theme="light"
+				theme={state}
 				transition={Bounce}
 				// dark: --gray-800: #181f2e
 				// light: --gray-800: #cdd3e1
-				toastStyle={{ border: "1px solid #181f2e" }}
+				toastStyle={{ border: `1px solid ${themeStyle[state]}` }}
 			/>
 		</>
 	)
