@@ -5,19 +5,14 @@ import {
 	SettingsIcon,
 	SunIcon,
 } from "lucide-react"
-import { useEffect, useState } from "react"
+import { showMessage } from "../../adapters/showMessage"
+import { useThemeContext } from "../../hooks/useThemeContext"
+import { ThemeActionType } from "../../models/ThemeActionModel"
 import { RouterLink } from "../RouterLink"
 import styles from "./styles.module.css"
 
-type AvailableThemes = "dark" | "light"
-
 export function Menu() {
-	const [theme, setTheme] = useState<AvailableThemes>(() => {
-		// Recuperando do localStorage
-		const storageTheme =
-			(localStorage.getItem("theme") as AvailableThemes) || "dark"
-		return storageTheme
-	})
+	const { state, dispatch } = useThemeContext()
 
 	const nextThemeIcon = {
 		dark: <SunIcon />,
@@ -33,16 +28,10 @@ export function Menu() {
 		event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
 	) {
 		event.preventDefault() // Não segue o link
+		showMessage.dismiss()
 
-		setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"))
+		dispatch({ type: ThemeActionType.CHANGE_THEME })
 	}
-
-	useEffect(() => {
-		// Modificando o data attibute data-theme
-		document.documentElement.setAttribute("data-theme", theme)
-		// Salvando no localStorage
-		localStorage.setItem("theme", theme)
-	}, [theme])
 
 	return (
 		<nav className={styles.menu}>
@@ -76,11 +65,11 @@ export function Menu() {
 			<RouterLink
 				className={styles.menuLink}
 				href="#"
-				aria-label={`Mudar para tema ${nextThemeText[theme]}`}
-				title={`Mudar para tema ${nextThemeText[theme]}`}
+				aria-label={`Mudar para tema ${nextThemeText[state]}`}
+				title={`Mudar para tema ${nextThemeText[state]}`}
 				onClick={handleThemeChange}
 			>
-				{nextThemeIcon[theme]}
+				{nextThemeIcon[state]}
 			</RouterLink>
 		</nav>
 	)
