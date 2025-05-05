@@ -105,8 +105,8 @@
    --toastify-color-success: var(--success);
    --toastify-color-warning: var(--warning);
    --toastify-color-error: var(--error);
-   --toastify-text-color-light: #e6e9f0;
-   --toastify-text-color-dark: #0a0f1a;
+   --toastify-text-color-light: #0a0f1a;
+   --toastify-text-color-dark: #e6e9f0;
    --toastify-color-progress-light: var(--primary);
    --toastify-color-progress-dark: var(--primary);
 }
